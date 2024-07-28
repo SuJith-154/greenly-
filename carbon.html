@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greenly - Carbon Footprint Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7fafc;
+            color: #2d3748;
+            position: relative;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .decor {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            z-index: -1;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-art,
+        .right-art {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100px;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .left-art {
+            left: 0;
+        }
+
+        .right-art {
+            right: 0;
+        }
+
+        .left-art img,
+        .right-art img {
+            width: 100%;
+            height: auto;
+            max-height: 80%;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #edf2f7;
+            color: #2d3748;
+        }
+
+        button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #38a169;
+        }
+
+        #totalEmissions {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .warning {
+            color: #e53e3e;
+            font-weight: bold;
+            text-align: center;
+            font-size: 20px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="decor"></div>
+        <div class="left-art">
+            <img src="left_artwork.png" alt="Left Artwork">
+        </div>
+        <div class="right-art">
+            <img src="right_artwork.png" alt="Right Artwork">
+        </div>
+        <h1>Greenly - Carbon Footprint Calculator</h1>
+
+        <label for="bikes">Number of Bikes:</label>
+        <input type="number" id="bikes" placeholder="Enter the number of bikes">
+
+        <label for="cars">Number of Cars:</label>
+        <input type="number" id="cars" placeholder="Enter the number of cars">
+
+        <button onclick="calculateTotal()">Calculate Total Carbon Footprint</button>
+
+        <div id="totalEmissions"></div>
+        <div id="resultMessage" class="warning"></div>
+    </div>
+
+    <script>
+        function calculateTotal() {
+            var numberOfBikes = parseInt(document.getElementById("bikes").value) || 0;
+            var numberOfCars = parseInt(document.getElementById("cars").value) || 0;
+
+            // Assuming the emission factor for bikes is 25 grams of CO2 per km per bike
+            // And the emission factor for cars is 2996 grams of CO2 per km per car
+            var carbonFootprintBikes = numberOfBikes * (25 / 46.25);
+            var carbonFootprintCars = numberOfCars * (25 / 9.5);
+
+            var totalEmissions = carbonFootprintBikes + carbonFootprintCars;
+
+            var resultMessage = "";
+
+            if (totalEmissions < 1.00) {
+                resultMessage = "USING ECO-FRIENDLY TRANSPORTATION";
+            } else if (totalEmissions >= 1.00 && totalEmissions < 3.10) {
+                resultMessage = "LOW POLLUTION LEVEL";
+            } else if (totalEmissions >= 3.10 && totalEmissions < 4.20) {
+                resultMessage = "MINIMAL ENVIRONMENTAL IMPACT";
+            } else if (totalEmissions >= 4.20 && totalEmissions < 5.00) {
+                resultMessage = "CONSIDER USING PUBLIC TRANSPORTATION";
+            } else if (totalEmissions >= 5.00 && totalEmissions < 8.0) {
+                resultMessage = "REDUCE CAR USAGE";
+            } else if (totalEmissions >= 8.0 && totalEmissions < 12.0) {
+                resultMessage = "LIMIT CAR USAGE TO ESSENTIAL TRIPS";
+            } else if (totalEmissions >= 12.0 && totalEmissions <= 16.0) {
+                resultMessage = "SIGNIFICANT CAR USAGE REDUCTION NEEDED";
+            } else if (totalEmissions > 16.0) {
+                resultMessage = "HIGHLY POLLUTING, URGENT ACTION REQUIRED";
+            }
+
+            document.getElementById("totalEmissions").textContent = "Total Carbon Footprint: " + totalEmissions.toFixed(2) + " kg CO2";
+            document.getElementById("resultMessage").textContent = resultMessage;
+        }
+    </script>
+</body>
+</html>
